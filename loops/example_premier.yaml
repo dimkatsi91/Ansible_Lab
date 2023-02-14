@@ -1,0 +1,19 @@
+---
+- name: Cree une group & un peu de useurs - example premier
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Create a group called test-group
+      ansible.builtin.group:
+        name: test-group
+        state: present
+        gid: 1088
+    - name: Add a bunch of users
+      ansible.builtin.user:
+        name: "{{ item }}"
+        state: present
+        groups: "test-group"
+      loop:
+        - rivaldo
+        - ronaldo
+        - karembue

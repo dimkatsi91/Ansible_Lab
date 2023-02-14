@@ -1,0 +1,12 @@
+- name: Playbook to execute a simple command
+  hosts: localhost
+  tasks:
+    - name: "Run whoami command"
+      command: whoami
+      register: whoami_var
+    - name: "Check host temperature"
+      command: sensors
+      register: temp_var
+    
+    - debug: msg="{{ whoami_var.stdout }}"
+    - debug: msg="{{ temp_var.stdout }}"
