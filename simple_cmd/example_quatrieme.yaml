@@ -1,0 +1,26 @@
+---
+- name: Playbook to use vars & loop
+  hosts: localhost
+  vars:
+    packages:
+      - name: make
+        enabled: False
+      - name: g++
+        enabled: False
+      - name: clementine
+        enabled: True
+      - name: vlc
+        enabled: True
+      - name: cmake
+        enabled: False
+      - name: lm-sensors
+        enabled: False
+      - name: ffmpeg
+        enabled: False
+  tasks:
+    - name: Install a few utilities in Linux machine
+      apt:
+        name: "{{ item.name }}"
+        state: present
+      when: item.enabled == True
+      loop: "{{ packages }}"
