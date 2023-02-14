@@ -1,0 +1,14 @@
+---
+- name: Playbook to create a file via Ansible
+  hosts: localhost
+  tasks:
+    - name: Create temp file
+      file:
+        path: /tmp/file_created_by_ansible
+        state: touch
+    
+    - name: List above created file
+      command: "ls -l /tmp/file_created_by_ansible"
+      register: ls_cmd
+    
+    - debug: msg="{{ ls_cmd.stdout }}"
