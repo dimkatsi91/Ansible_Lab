@@ -1,0 +1,24 @@
+---
+
+- name: Playbook
+  hosts: localhost
+  vars:
+    teams:
+      - name: Arsenal
+        city: London
+      - name: Man Utd
+        city: Manchester
+      - name: Man City
+        city: Manchester
+      - name: Real Madrid
+        city: Madrid
+      - name: Barcelona
+        city: Barcelona
+      - name: Marseille
+        city: Marseille
+      - name: PSG
+        city: Paris
+  tasks:
+    - name: Task
+      command: 'echo Team: {{ item.name }}  ||  City: {{ item.city }}'
+      loop: "{{ teams }}"
