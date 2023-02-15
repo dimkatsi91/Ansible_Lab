@@ -1,0 +1,14 @@
+- name: Playbook to compress this repo
+  hosts: localhost
+  tasks:
+    - name: Tar whole repo
+      archive:
+        path: ../../Ansible_Lab
+        dest: ../../ansible_lab.tar.gz
+        format: gz
+
+    - name: Tar just one file for demonstration
+      archive: 
+        path: ./create_zip.yaml
+        dest: ../../create_zip.yaml.gz
+        format: gz
