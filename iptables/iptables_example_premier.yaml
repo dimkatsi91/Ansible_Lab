@@ -1,0 +1,26 @@
+---
+- name: Playbook for ipTables demonstration (i.e. Linux Firewall)
+  hosts: localhost
+  become: true
+  tasks:
+  - name: Task to allow incoming HTTP traffic
+    iptables:
+      chain: INPUT
+      protocol: tcp
+      destination_port: 80
+      ctstate: NEW
+      jump: ACCEPT
+      comment: Allow HTTP traffic
+  - name: Task to allow incoming HTTPS traffic
+    iptables:
+      chain: INPUT
+      protocol: tcp
+      destination_port: 443
+      ctstate: NEW
+      jump: ACCEPT
+      comment: Allow HTTPS traffic
+
+  - name: Output ipTables INPUT chain only
+    shell: 'iptables -t filter -L INPUT'
+    register: iptables
+  - debug: msg=">> {{ iptables.stdout }}"
