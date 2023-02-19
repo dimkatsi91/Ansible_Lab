@@ -1,0 +1,35 @@
+---
+- name: Playbook to demostrate file module usage
+  hosts: localhost
+  tasks:
+  - name: Task to create two hard links
+    file:
+      src: '/tmp/{{ item.src }}'
+      dest: '{{ item.dest }}'
+      state: hard
+    loop:
+      - src: x
+        dest: y
+      - src: z
+        dest: k
+  - name: Create a bunch of files
+    file:
+      path: /tmp/{{ item.filename }}.txt
+      state: touch
+      mode: u=rw,g=r,o=r
+    loop:
+      - filename: olympiacos
+      - filename: panathinaikos
+      - filename: aek
+      - filename: paok
+  - name: Task to get group of current user so it is used in the next directory creation for the mode property
+    shell: "groups $USER | awk '{print $1}'"
+    register: groups_name
+  - debug:  msg="The retrieved group of the current Linux user is {{ groups_name.stdout }}"
+  - name: Create a directory
+    file:
+      path: /tmp/testFolder/testSubFolder
+      state: directory
+      recurse: yes
+      group: "{{ groups_name.stdout }}"
+    when: groups_name is defined
